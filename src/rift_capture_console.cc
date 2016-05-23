@@ -21,7 +21,7 @@
  * limitations under the License.
  */
 
-#include "gtest/rw_gtest.h"
+#include "gtest/gtest.h"
 
 char ConsoleCapture::filename[MAX_FILENAME_SZ];
 int ConsoleCapture::stdout_backup;
