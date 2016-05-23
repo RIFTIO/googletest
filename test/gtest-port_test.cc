@@ -353,7 +353,7 @@ TEST(GetThreadCountTest, ReturnsCorrectValue) {
 }
 #else
 TEST(GetThreadCountTest, ReturnsZeroWhenUnableToCountThreads) {
-  EXPECT_EQ(0U, GetThreadCount());
+  EXPECT_EQ(1U, GetThreadCount());
 }
 #endif  // GTEST_OS_MAC || GTEST_OS_QNX
 
