@@ -124,11 +124,32 @@ size_t GetThreadCount() {
 }
 
 #else
-
+#include <dirent.h>
 size_t GetThreadCount() {
-  // There's no portable way to detect the number of threads, so we just
-  // return 0 to indicate that we cannot detect it.
-  return 0;
+  /**
+   * RIFT.io implementation of GetThreadCount for Linux
+   */
+  DIR *dir;
+  dirent *entry;
+  dirent *result = NULL;
+  size_t thread_count = 0;
+
+  entry = (dirent *) malloc(sizeof(dirent));
+  if (entry == NULL) {
+    return 0;
+  }
+  dir = opendir("/proc/self/task");
+  if (dir) {
+    readdir_r(dir, entry, &result);
+    while (result) {
+      if (entry->d_name[0] != '.') {
+        ++thread_count;
+      }
+      readdir_r(dir, entry, &result);
+    }
+    closedir(dir);
+  }
+  return thread_count;
 }
 
 #endif  // GTEST_OS_MAC
